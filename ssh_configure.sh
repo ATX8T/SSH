@@ -1,16 +1,26 @@
 #!/bin/bash
 
-# 查看服务器是否安装ssh，是否启用状态
-if ! command -v ssh >/dev/null 2>&1; then
+# 查看服务器是否安装ssh
+if command -v ssh >/dev/null 2>&1; then
+    echo "SSH 已安装"
+else
     echo "SSH 未安装，请先安装 SSH。"
     exit 1
 fi
 
-
-if ! systemctl is-active --quiet sshd; then
+# 查看SSH服务是否启用
+if systemctl is-active --quiet sshd; then
+    echo "SSH 服务已启用"
+else
     echo "SSH 服务未启用，现在启用..."
     sudo systemctl start sshd
-    sudo systemctl enable sshd
+    if systemctl is-active --quiet sshd; then
+        echo "SSH 服务启用成功"
+        sudo systemctl enable sshd
+    else
+        echo "SSH 服务启用失败，可能原因："
+        systemctl status sshd | grep -i "failed"
+    fi
 fi
 
 # 生成OpenSSH密钥对, 一路回车即可
@@ -48,11 +58,11 @@ sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh
 sudo sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
 # 重启 SSH 服务
+echo "正在重启SSH服务..."
 sudo systemctl restart sshd
-
-# 检查状态
 if systemctl is-active --quiet sshd; then
     echo "SSH 服务已成功重启并处于运行状态。"
 else
-    echo "SSH 服务重启失败，请检查配置。"
-fi    
+    echo "SSH 服务重启失败，可能原因："
+    systemctl status sshd | grep -i "failed"
+fi
