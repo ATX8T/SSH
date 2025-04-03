@@ -4,8 +4,16 @@
 if command -v ssh >/dev/null 2>&1; then
     echo "SSH 已安装"
 else
-    echo "SSH 未安装，请先安装 SSH。"
-    exit 1
+    echo "SSH 未安装，正在安装 SSH..."
+    if [[ -f /etc/debian_version ]]; then
+        sudo apt-get update
+        sudo apt-get install -y openssh-server
+    elif [[ -f /etc/redhat-release ]]; then
+        sudo yum install -y openssh-server
+    else
+        echo "不支持的系统，无法安装 SSH。"
+        exit 1
+    fi
 fi
 
 # 查看SSH服务是否启用
@@ -65,4 +73,4 @@ if systemctl is-active --quiet sshd; then
 else
     echo "SSH 服务重启失败，可能原因："
     systemctl status sshd | grep -i "failed"
-fi
+fi    
