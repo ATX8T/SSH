@@ -2,14 +2,27 @@
 
 # 查看服务器是否安装ssh
 if command -v ssh >/dev/null 2>&1; then
-    echo "SSH 已安装"
+    echo "SSH 客户端已安装"
+    # 检查 sshd 服务是否存在
+    if! systemctl list-units --full -all | grep -Fq "sshd.service"; then
+        echo "SSH 服务端未安装，正在安装..."
+        if [[ -f /etc/debian_version ]]; then
+            sudo apt-get update
+            sudo apt-get install -y openssh-server
+        elif [[ -f /etc/redhat-release ]]; then
+            sudo yum install -y openssh-server
+        else
+            echo "不支持的系统，无法安装 SSH 服务端。"
+            exit 1
+        fi
+    fi
 else
-    echo "SSH 未安装，正在安装 SSH..."
+    echo "SSH 客户端未安装，正在安装..."
     if [[ -f /etc/debian_version ]]; then
         sudo apt-get update
-        sudo apt-get install -y openssh-server
+        sudo apt-get install -y openssh-client openssh-server
     elif [[ -f /etc/redhat-release ]]; then
-        sudo yum install -y openssh-server
+        sudo yum install -y openssh-clients openssh-server
     else
         echo "不支持的系统，无法安装 SSH。"
         exit 1
