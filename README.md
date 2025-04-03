@@ -38,7 +38,14 @@
 - ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image.png)
 - ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image%20(1).png)
 - 
+## FinalShell内root连接命令
+```
+bash <(curl -s https://raw.githubusercontent.com/ATX8T/SSH/main/ssh_configure.sh)
 
+原地址  直接在浏览器中查看github的ssh_configure.sh文件获取地址然后修改
+
+https://github.com/ATX8T/SSH/blob/main/ssh_configure.sh
+```
 
 ## 连接成功后删除服务器私钥
 ```
