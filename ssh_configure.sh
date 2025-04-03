@@ -3,7 +3,7 @@
 # 查看服务器是否安装ssh
 if command -v ssh >/dev/null 2>&1; then
     echo "SSH 客户端已安装"
-    # 检查 sshd 服务是否存在
+    # 检查 sshd 服务是否存在，修正参数为 --all
     if! systemctl list-units --full --all | grep -Fq "sshd.service"; then
         echo "SSH 服务端未安装，正在安装..."
         if [[ -f /etc/debian_version ]]; then
@@ -86,4 +86,5 @@ if systemctl is-active --quiet sshd; then
 else
     echo "SSH 服务重启失败，可能原因："
     systemctl status sshd | grep -i "failed"
-fi    
+fi
+    
