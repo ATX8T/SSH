@@ -6,6 +6,7 @@ if ! command -v ssh >/dev/null 2>&1; then
     exit 1
 fi
 
+
 if ! systemctl is-active --quiet sshd; then
     echo "SSH 服务未启用，现在启用..."
     sudo systemctl start sshd
