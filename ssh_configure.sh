@@ -82,9 +82,27 @@ fi
 
 
 # 修改SSH服务端配置
+echo "正在修改SSH服务端配置..."
 sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# 验证Root登录配置
+if grep -q "^PermitRootLogin yes" /etc/ssh/sshd_config; then
+    echo "配置生效：PermitRootLogin yes 已启用"
+else
+    echo "警告：PermitRootLogin 配置未生效，请手动检查 /etc/ssh/sshd_config"
+fi
+
 sudo sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-echo "修改SSH服务端配置ok"
+# 验证公钥认证配置
+if grep -q "^PubkeyAuthentication yes" /etc/ssh/sshd_config; then
+    echo "配置生效：PubkeyAuthentication yes 已启用"
+else
+    echo "警告：PubkeyAuthentication 配置未生效，请手动检查 /etc/ssh/sshd_config"
+fi
+
+
+
+
+
 
 # 重启SSH服务生效
 echo "正在重启SSH服务..."
@@ -97,9 +115,30 @@ else
     exit 1
 fi
 
-echo "===============================查看私钥文件内容==============================="
-cat ~/.ssh/id_rsa
-echo "===============================查看公钥文件内容==============================="
-cat ~/.ssh/id_rsa.pub
-echo "===============================查看是否追加成功==============================="
-more ~/.ssh/authorized_keys
+# 添加最终的密钥文件内容输出
+echo -e "\n\n=============================== 查看私钥文件内容 ==============================="
+if [ -f ~/.ssh/id_rsa ]; then
+    cat ~/.ssh/id_rsa
+else
+    echo "警告：私钥文件 ~/.ssh/id_rsa 不存在！"
+fi
+
+echo -e "\n=============================== 查看公钥文件内容 ==============================="
+if [ -f ~/.ssh/id_rsa.pub ]; then
+    cat ~/.ssh/id_rsa.pub
+else
+    echo "警告：公钥文件 ~/.ssh/id_rsa.pub 不存在！"
+fi
+
+echo -e "\n=============================== 查看是否追加成功 ==============================="
+if [ -f ~/.ssh/authorized_keys ]; then
+    echo "authorized_keys 文件内容（最后5行）："
+    tail -n 5 ~/.ssh/authorized_keys
+    echo -e "\n完整验证："
+    grep -F "$(cat ~/.ssh/id_rsa.pub)" ~/.ssh/authorized_keys && echo ">>> 公钥已存在" || echo ">>> 公钥未找到"
+else
+    echo "警告：authorized_keys 文件不存在！"
+fi
+
+echo -e "\nSSH配置已完成！建议执行以下命令验证连接："
+echo "ssh -o PubkeyAuthentication=yes -o PasswordAuthentication=no localhost"
