@@ -15,7 +15,10 @@
    F:\IM\ls\id_rsa 本地存放路径
     ssh -i "F:\IM\ls\id_rsa" root@170.106.110.14
   ```
-
+- 使用FinalShell➕密钥登录
+- ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image.png)
+- ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image (1).png)
+- 
 
 
 
