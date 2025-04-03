@@ -4,7 +4,7 @@
 if command -v ssh >/dev/null 2>&1; then
     echo "SSH 客户端已安装"
     # 检查 sshd 服务是否存在
-    if! systemctl list-units --full -all | grep -Fq "sshd.service"; then
+    if! systemctl list-units --full --all | grep -Fq "sshd.service"; then
         echo "SSH 服务端未安装，正在安装..."
         if [[ -f /etc/debian_version ]]; then
             sudo apt-get update
