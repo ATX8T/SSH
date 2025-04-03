@@ -15,8 +15,12 @@
    F:\IM\ls\id_rsa 本地存放路径
     ssh -i "F:\IM\ls\id_rsa" root@170.106.110.14
   ```
-- 
+-
+
+![替代文本]([图片的URL](https://github.com/ATX8T/SSH/blob/main/img/image%20(1).png?raw=true))
 
 
-
+![My Image]([https://github.com/username/repo/raw/main/image.png](https://github.com/ATX8T/SSH/blob/main/img/image%20(1).png))
+![My Image](https://github.com/ATX8T/SSH/blob/main/img/image%20(1).png)
+https://github.com/ATX8T/SSH/blob/main/img/image%20(1).png
 
