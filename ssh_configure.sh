@@ -79,9 +79,12 @@ else
     exit 1
 fi
 
+
+
 # 修改SSH服务端配置
 sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 sudo sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+echo "修改SSH服务端配置ok"
 
 # 重启SSH服务生效
 echo "正在重启SSH服务..."
