@@ -17,7 +17,7 @@
   ```
 - 使用FinalShell➕密钥登录
 - ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image.png)
-- ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image (1).png)
+- ![替代文本](https://raw.githubusercontent.com/ATX8T/SSH/main/img/image%20(1).png)
 - 
 
 
